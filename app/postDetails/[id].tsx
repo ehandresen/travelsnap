@@ -4,6 +4,7 @@ import { useLocalSearchParams } from 'expo-router';
 
 const PostDetails = () => {
   const { id } = useLocalSearchParams();
+
   return (
     <View>
       <Text>ID: {id}</Text>
