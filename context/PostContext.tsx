@@ -14,7 +14,7 @@ type PostContextType = {
 const PostContext = createContext<PostContextType | undefined>(undefined);
 
 const PostProvider = ({ children }: { children: ReactNode }) => {
-  const [posts, setPosts] = useState('name');
+  const [posts, setPosts] = useState('name from context');
 
   return (
     <PostContext.Provider value={{ posts, setPosts }}>
