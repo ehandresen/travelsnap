@@ -1,22 +1,31 @@
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Image } from 'react-native';
 import React from 'react';
 import { PostType } from '@/types/postType';
 import { useState } from 'react';
 import { usePostContext } from '@/context/PostContext';
+import * as ImagePicker from 'expo-image-picker';
 
 type PostModalType = {
   onClose: () => void;
   onSave: (post: PostType) => Promise<void>;
 };
 
-// TODO add imagePicker option
-
 const PostModal = ({ onClose, onSave }: PostModalType) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [hashtags, setHashtags] = useState('');
+  const [image, setImage] = useState<string | null>(null);
 
   const { fetchPosts } = usePostContext();
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    const result = await ImagePicker.launchImageLibraryAsync();
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   const handleSave = async () => {
     const newPost: PostType = {
@@ -35,6 +44,8 @@ const PostModal = ({ onClose, onSave }: PostModalType) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create a Post</Text>
+      <Button title="pick image" onPress={pickImage} />
+      {image && <Image source={{ uri: image }} style={styles.image} />}
       <TextInput
         style={styles.input}
         placeholder="title.."
@@ -85,5 +96,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     // color: 'white',
+  },
+  image: {
+    height: 200,
+    width: 200,
   },
 });
