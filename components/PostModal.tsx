@@ -14,7 +14,7 @@ const PostModal = ({ onClose, onSave }: PostModalType) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [hashtags, setHashtags] = useState('');
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string>('');
 
   const { fetchPosts } = usePostContext();
 
@@ -24,6 +24,7 @@ const PostModal = ({ onClose, onSave }: PostModalType) => {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      console.log('image uri:', result.assets[0].uri);
     }
   };
 
@@ -33,7 +34,7 @@ const PostModal = ({ onClose, onSave }: PostModalType) => {
       title,
       description,
       hashtags,
-      imageUrl: 'imageurl',
+      imageUrl: image,
     };
 
     await onSave(newPost);

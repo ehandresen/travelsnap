@@ -22,3 +22,5 @@ export const getAllPosts = async () => {
     });
   } catch (e) {}
 };
+
+// TODO getpost by id, delete post
