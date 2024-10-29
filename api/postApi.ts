@@ -1,5 +1,5 @@
 import { PostType } from '@/types/postType';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '@/firebaseConfig';
 
 export const createPost = async (post: PostType) => {
@@ -10,4 +10,15 @@ export const createPost = async (post: PostType) => {
   } catch (e) {
     console.log('error adding document', e);
   }
+};
+
+export const getAllPosts = async () => {
+  try {
+    const queryResult = await getDocs(collection(db, 'posts'));
+
+    return queryResult.docs.map((doc) => {
+      // we know the data will have the same properties as PostType
+      return doc.data() as PostType;
+    });
+  } catch (e) {}
 };
