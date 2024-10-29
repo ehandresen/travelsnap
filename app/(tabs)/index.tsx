@@ -10,10 +10,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, Stack } from 'expo-router';
 import { globalStyles } from '@/styles/globalStyles';
 import { PostContext, usePostContext } from '@/context/PostContext';
-import * as postApi from '@/api/postApi';
 import PostModal from '@/components/PostModal';
 import { PostType } from '@/types/postType';
 import Post from '@/components/Post';
+import * as postApi from '@/api/postApi';
 
 const HomeScreen = () => {
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);

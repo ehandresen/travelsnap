@@ -4,6 +4,7 @@ import { PostType } from '@/types/postType';
 import { useState } from 'react';
 import { usePostContext } from '@/context/PostContext';
 import * as ImagePicker from 'expo-image-picker';
+import * as imageApi from '@/api/imageApi';
 
 type PostModalType = {
   onClose: () => void;
@@ -14,7 +15,7 @@ const PostModal = ({ onClose, onSave }: PostModalType) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [hashtags, setHashtags] = useState('');
-  const [image, setImage] = useState<string>('');
+  const [image, setImage] = useState<string | null>(null);
 
   const { fetchPosts } = usePostContext();
 
@@ -34,9 +35,12 @@ const PostModal = ({ onClose, onSave }: PostModalType) => {
       title,
       description,
       hashtags,
-      imageUrl: image,
+      imageUrl: image || '',
     };
 
+    if (image) {
+      await imageApi.uploadImageToFirebase(image);
+    }
     await onSave(newPost);
     fetchPosts();
     onClose();
