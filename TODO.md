@@ -3,9 +3,8 @@
 ## Features
 
 - [x] hook up modal to save the new post in fireabse
-
-- [ ] Add search functionality
-- [ ] Create user profile page
+- [x] add modal in top right corner to create new post
+- [ ]
 
 ## Bugs
 

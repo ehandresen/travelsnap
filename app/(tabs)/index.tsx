@@ -1,21 +1,23 @@
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, Stack } from 'expo-router';
 import { globalStyles } from '@/styles/globalStyles';
-import { PostContext } from '@/context/PostContext';
+import { PostContext, usePostContext } from '@/context/PostContext';
 import * as postApi from '@/api/postApi';
 import PostModal from '@/components/PostModal';
 import { PostType } from '@/types/postType';
+import Post from '@/components/Post';
 
 const HomeScreen = () => {
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
-  const context = useContext(PostContext);
-
-  if (!context) {
-    throw new Error('');
-  }
-
-  const { posts, setPosts } = context;
+  const { posts, setPosts } = usePostContext();
 
   return (
     <View style={globalStyles.centerContainer}>
@@ -43,7 +45,7 @@ const HomeScreen = () => {
         visible={isPostModalOpen}
         animationType="slide"
         presentationStyle="formSheet"
-        onRequestClose={() => console.log()}
+        onRequestClose={() => setIsPostModalOpen(false)}
       >
         <PostModal
           onClose={() => setIsPostModalOpen(false)}
@@ -51,7 +53,14 @@ const HomeScreen = () => {
         />
       </Modal>
 
-      <Text style={{ color: '#ffffff' }}>{posts}</Text>
+      {/* list of posts */}
+      <View>
+        <Text>Post count: {posts.length}</Text>
+        <FlatList
+          data={posts}
+          renderItem={({ item }) => <Post post={item} />}
+        />
+      </View>
     </View>
   );
 };
