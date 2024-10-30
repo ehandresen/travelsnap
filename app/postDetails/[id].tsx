@@ -1,9 +1,25 @@
 import { View, Text } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stack, useLocalSearchParams } from 'expo-router';
+import * as postApi from '@/api/postApi';
+import { PostType } from '@/types/postType';
+import Post from '@/components/Post';
 
 const PostDetails = () => {
+  const [post, setPost] = useState<PostType | null>(null);
   const { id } = useLocalSearchParams();
+
+  useEffect(() => {
+    getPostFromFirebase();
+  }, []);
+
+  const getPostFromFirebase = async () => {
+    const post = await postApi.getPostById(id as string);
+
+    if (post) {
+      setPost(post);
+    }
+  };
 
   return (
     <View>
@@ -12,7 +28,7 @@ const PostDetails = () => {
           title: 'Details',
         }}
       />
-      <Text>ID: {id}</Text>
+      {post && <Post post={post} />}
     </View>
   );
 };
