@@ -58,7 +58,16 @@ const HomeScreen = () => {
         <Text>Post count: {posts.length}</Text>
         <FlatList
           data={posts}
-          renderItem={({ item }) => <Post post={item} />}
+          renderItem={({ item }) => (
+            <Link
+              href={{
+                pathname: '/postDetails/[id]',
+                params: { id: item.id },
+              }}
+            >
+              <Post post={item} />
+            </Link>
+          )}
         />
       </View>
     </View>
