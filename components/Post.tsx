@@ -10,7 +10,9 @@ const Post = ({ post }: PostProps) => {
   return (
     <View style={styles.container}>
       {/* Image */}
-      <Image source={{ uri: post.imageUrl }} style={styles.image} />
+      {post.imageUrl && (
+        <Image source={{ uri: post.imageUrl }} style={styles.image} />
+      )}
 
       {/* Title */}
       <Text style={styles.title}>{post.title}</Text>
