@@ -2,9 +2,16 @@ import { initializeApp } from 'firebase/app';
 import firebaseConfig from './firebaseEnv';
 import { getFirestore } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref } from 'firebase/storage';
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// foreleser sier auth er som regel det første man setter opp
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});
 
 //  Initializes Firestore and exports it so you can interact with the database in other files.
 export const db = getFirestore(app);
