@@ -69,7 +69,8 @@ export const getPostById = async (id: string) => {
 
 export const deletePost = async (id: string) => {
   try {
-    // await deleteDoc(doc);
+    await deleteDoc(doc(db, 'posts', id));
+    console.log(`deleted document with id: ${id}`);
   } catch (error) {
     console.log(`could not delete doc with id ${id}`, error);
   }
