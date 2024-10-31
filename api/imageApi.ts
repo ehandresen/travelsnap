@@ -19,7 +19,9 @@ export const uploadImageToFirebase = async (uri: string) => {
   try {
     await uploadBytes(imageRef, blob);
     console.log('uploading image to', uploadPath);
+    return uploadPath;
   } catch (error) {
     console.log('error uploading image', error);
+    return 'error';
   }
 };

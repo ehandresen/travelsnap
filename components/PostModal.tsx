@@ -38,9 +38,6 @@ const PostModal = ({ onClose, onSave }: PostModalType) => {
       imageUrl: image || '',
     };
 
-    if (image) {
-      await imageApi.uploadImageToFirebase(image);
-    }
     await onSave(newPost);
     fetchPosts();
     onClose();
