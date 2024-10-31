@@ -14,7 +14,9 @@ const PostDetails = () => {
   }, []);
 
   const getPostFromFirebase = async () => {
+    console.log(`id bedfore fetch: ${id}`);
     const post = await postApi.getPostById(id as string);
+    console.log('post in [id]:', post);
 
     if (post) {
       setPost(post);
@@ -22,7 +24,7 @@ const PostDetails = () => {
   };
 
   return (
-    <View>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Stack.Screen
         options={{
           title: 'Details',

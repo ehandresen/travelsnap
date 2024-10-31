@@ -2,7 +2,7 @@ import {
   FlatList,
   Modal,
   Pressable,
-  StyleSheet,
+  RefreshControl,
   Text,
   View,
 } from 'react-native';
@@ -17,11 +17,10 @@ import * as postApi from '@/api/postApi';
 
 const HomeScreen = () => {
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
-  const { posts, setPosts } = usePostContext();
+  const { posts, refreshing, fetchPosts } = usePostContext();
 
   return (
     <View style={globalStyles.centerContainer}>
-      {/* screen options */}
       <Stack.Screen
         options={{
           headerRight: () => (
@@ -40,7 +39,6 @@ const HomeScreen = () => {
         }}
       />
 
-      {/* post modal */}
       <Modal
         visible={isPostModalOpen}
         animationType="slide"
@@ -58,6 +56,9 @@ const HomeScreen = () => {
         <Text>Post count: {posts.length}</Text>
         <FlatList
           data={posts}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={fetchPosts} />
+          }
           renderItem={({ item }) => (
             <Link
               href={{
@@ -75,5 +76,3 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({});

@@ -15,6 +15,7 @@ import * as postApi from '@/api/postApi';
 type PostContextType = {
   posts: PostType[];
   setPosts: Dispatch<SetStateAction<PostType[]>>;
+  refreshing: boolean;
   fetchPosts: () => Promise<void>;
 };
 
@@ -34,6 +35,7 @@ export function usePostContext() {
 
 const PostProvider = ({ children }: { children: ReactNode }) => {
   const [posts, setPosts] = useState<PostType[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     fetchFromBackend();
@@ -41,11 +43,15 @@ const PostProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchFromBackend = async () => {
     try {
+      setRefreshing(true);
       const response = await postApi.getAllPosts();
 
       if (response) {
         setPosts(response);
+        setRefreshing(false);
       }
+
+      setRefreshing(false);
     } catch (e) {
       console.log('failed fetching posts', e);
     }
@@ -53,7 +59,7 @@ const PostProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <PostContext.Provider
-      value={{ posts, setPosts, fetchPosts: fetchFromBackend }}
+      value={{ posts, setPosts, refreshing, fetchPosts: fetchFromBackend }}
     >
       {children}
     </PostContext.Provider>
