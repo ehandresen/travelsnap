@@ -8,8 +8,11 @@ import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+// Initialize Firebase Authentication
 // foreleser sier auth er som regel det første man setter opp
-const auth = initializeAuth(app, {
+export const auth = initializeAuth(app, {
+  // Sets up React Native’s AsyncStorage as the persistence layer,
+  // which allows the authentication state to be preserved across app restarts.
   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
 
