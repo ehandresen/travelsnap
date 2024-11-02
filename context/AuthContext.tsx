@@ -54,8 +54,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         signIn: async (email: string, password: string) => {
           await authApi.signIn(email, password);
         },
-        signOut: () => {
-          setUserSession(null);
+        signOut: async () => {
+          await authApi.signOut();
         },
         usernameSession: userSession,
         isLoading,

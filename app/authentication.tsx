@@ -11,6 +11,8 @@ const Authentication = () => {
 
   const [isSignUp, setIsSignUp] = useState(false);
 
+  const router = useRouter();
+
   const { signIn } = useAuthSession();
 
   return (
@@ -74,11 +76,8 @@ const Authentication = () => {
           <Pressable
             style={styles.primaryButton}
             onPress={() => {
-              if (isSignUp) {
-                // authApi.signUp(userEmail, password, userName);
-              } else {
-                signIn(userEmail, password);
-              }
+              signIn(userEmail, password);
+              router.replace('/');
             }}
           >
             <Text
@@ -86,7 +85,7 @@ const Authentication = () => {
                 color: 'white',
               }}
             >
-              {isSignUp ? 'Lag bruker' : 'Logg inn'}
+              login
             </Text>
           </Pressable>
           {isSignUp && (

@@ -14,10 +14,13 @@ import PostModal from '@/components/PostModal';
 import { PostType } from '@/types/postType';
 import Post from '@/components/Post';
 import * as postApi from '@/api/postApi';
+import { useAuthSession } from '@/context/AuthContext';
 
 const HomeScreen = () => {
   const [isPostModalOpen, setIsPostModalOpen] = useState(false);
   const { posts, refreshing, fetchPosts } = usePostContext();
+
+  const { usernameSession, signOut } = useAuthSession();
 
   return (
     <View style={globalStyles.centerContainer}>
@@ -36,6 +39,17 @@ const HomeScreen = () => {
               </Text>
             </Pressable>
           ),
+          headerLeft: () => (
+            <Text
+              style={{
+                paddingLeft: 24,
+                fontWeight: '500',
+                fontSize: 22,
+              }}
+            >
+              {usernameSession}
+            </Text>
+          ),
         }}
       />
 
@@ -53,7 +67,9 @@ const HomeScreen = () => {
 
       {/* list of posts */}
       <View>
-        <Text>Post count: {posts.length}</Text>
+        <Pressable onPress={signOut}>
+          <Text>Post count: {posts.length}</Text>
+        </Pressable>
         <FlatList
           data={posts}
           refreshControl={
